@@ -7,9 +7,13 @@ namespace PadawansTask8
     {
         public static void RemoveDuplicateWords(ref string text)
         {
-            if (text == null || text == "")
+            if (text == "")
             {
                 throw new ArgumentException();
+            }
+            if(text == null)
+            {
+                throw new ArgumentNullException();
             }
             int count = 0;
             for (int i = 0; i < text.Length; i++)
@@ -38,26 +42,34 @@ namespace PadawansTask8
                 {
                     int k = i + 1;
                     int startindex = i + 1;
+                    bool number = false;
                     while (text[k] != '.' && text[k] != ',' && text[k] != '!' && text[k] != '?' && text[k] != '-' && text[k] != ':' && text[k] != ';' && text[k] != ' ')
                     {
+                        if (char.IsDigit(text[k]))
+                            number = true;
                         str += text[k];
                         count++;
                         k++;
                         if (k == length - 1)
                         {
+                            if (char.IsDigit(text[k]))
+                                number = true;
                             str += text[k];
                             count++;
                             break;
                         }
                     }
                     bool flag = false;
-                    for (int j = 0; j < mas.Length; j++)
+                    if (number == false)
                     {
-                        if (str == mas[j])
+                        for (int j = 0; j < mas.Length; j++)
                         {
-                            text = text.Remove(startindex, count);
-                            length -= count;
-                            flag = true;
+                            if (str == mas[j])
+                            {
+                                text = text.Remove(startindex, count);
+                                length -= count;
+                                flag = true;
+                            }
                         }
                     }
                     if (flag == false)
